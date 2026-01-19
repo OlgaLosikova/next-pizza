@@ -1,0 +1,40 @@
+'use client';
+import Link from 'next/link'
+import React from 'react'
+import Title from './title';
+import { Button } from '../ui/button';
+import { Plus } from 'lucide-react';
+
+type Props = {
+    imgUrl: string;
+    id: number;
+    price: number;
+    name: string
+
+}
+
+const ProductCard: React.FC<Props> = ({ imgUrl, id, price, name }) => {
+    return (
+        <div>
+            <Link href={`/product/${id}`}>
+                <div className='flex justify-center p-6 bg-secondary rounded-lg h-[260px]'>
+                    <img className='w-[215px] h-[215px]' src={imgUrl} alt={name} />
+                </div>
+                <Title text={name} size='sm' className='mb-1 mt-3 font-bold' />
+                <p className='text-sm text-gray-400'>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero ducimus porro illum inventore ipsa soluta possimus tempore, provident esse ab sequi numquam deleniti incidunt libero repellendus, totam repudiandae nam dolore.
+                </p>
+                <div className='flex justify-between items-center mt-4'>
+                    <span className='text-[20px]'>
+                        от <b>{price} ₽</b>
+                    </span>
+
+                    <Button variant={'secondary'} className='text-base font-bold'>
+                        <Plus size={20} className='mr-1'/>Добавить
+                    </Button>
+                </div>
+            </Link>
+        </div>
+    )
+}
+export default ProductCard
