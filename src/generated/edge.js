@@ -97,6 +97,10 @@ exports.Prisma.UserScalarFieldEnum = {
   fullName: 'fullName',
   email: 'email',
   password: 'password',
+  role: 'role',
+  provider: 'provider',
+  providerId: 'providerId',
+  verified: 'verified',
   createAt: 'createAt',
   updatedAt: 'updatedAt'
 };
@@ -105,8 +109,79 @@ exports.Prisma.ProductScalarFieldEnum = {
   id: 'id',
   name: 'name',
   imageUrl: 'imageUrl',
+  categoryId: 'categoryId',
   createAt: 'createAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  imageUrl: 'imageUrl',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.IngredientScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  price: 'price',
+  imageUrl: 'imageUrl',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt',
+  cartItemId: 'cartItemId'
+};
+
+exports.Prisma.ProductItemScalarFieldEnum = {
+  id: 'id',
+  price: 'price',
+  size: 'size',
+  pizzaType: 'pizzaType',
+  productId: 'productId',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CartScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  totalAmount: 'totalAmount',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CartItemScalarFieldEnum = {
+  id: 'id',
+  cartId: 'cartId',
+  productItemId: 'productItemId',
+  quantity: 'quantity',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  toren: 'toren',
+  totalAmount: 'totalAmount',
+  status: 'status',
+  paymentTd: 'paymentTd',
+  items: 'items',
+  fullName: 'fullName',
+  email: 'email',
+  address: 'address',
+  phone: 'phone',
+  comment: 'comment',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VerificationCodeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  code: 'code',
+  createAt: 'createAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -114,15 +189,46 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+exports.OrderStatus = exports.$Enums.OrderStatus = {
+  PENDING: 'PENDING',
+  SUCCEEDED: 'SUCCEEDED',
+  CANCELED: 'CANCELED'
+};
+
+exports.UserRole = exports.$Enums.UserRole = {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Product: 'Product'
+  Product: 'Product',
+  Category: 'Category',
+  Ingredient: 'Ingredient',
+  ProductItem: 'ProductItem',
+  Cart: 'Cart',
+  CartItem: 'CartItem',
+  Order: 'Order',
+  VerificationCode: 'VerificationCode'
 };
 /**
  * Create the Client
@@ -132,10 +238,10 @@ const config = {
   "clientVersion": "7.2.0",
   "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider   = \"prisma-client-js\"\n  engineType = \"client\" // enable Prisma ORM without Rust\n  output     = \"../src/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id Int @id @default(autoincrement())\n\n  fullName String\n  email    String\n  password String\n\n  createAt  DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Product {\n  id Int @id @default(autoincrement())\n\n  name      String\n  imageUrl  String\n  createAt  DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n"
+  "inlineSchema": "generator client {\n  provider   = \"prisma-client-js\"\n  engineType = \"client\" // enable Prisma ORM without Rust\n  output     = \"../src/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id Int @id @default(autoincrement())\n\n  fullName String\n  email    String   @unique\n  password String\n  role     UserRole @default(USER)\n\n  provider   String?\n  providerId String?\n  verified   DateTime\n\n  createAt         DateTime          @default(now())\n  updatedAt        DateTime          @updatedAt\n  cart             Cart?\n  orders           Order[]\n  verificationCode VerificationCode?\n}\n\nmodel Product {\n  id Int @id @default(autoincrement())\n\n  name     String\n  imageUrl String\n\n  ingredients Ingredient[]\n\n  category   Category @relation(fields: [categoryId], references: [id])\n  categoryId Int\n\n  items ProductItem[]\n\n  createAt  DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Category {\n  id Int @id @default(autoincrement())\n\n  name      String    @unique\n  imageUrl  String\n  createAt  DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n  products  Product[]\n}\n\nmodel Ingredient {\n  id Int @id @default(autoincrement())\n\n  name     String\n  price    Int\n  imageUrl String\n\n  products Product[]\n\n  createAt   DateTime   @default(now())\n  updatedAt  DateTime   @updatedAt\n  cartItems  CartItem[]\n  cartItemId Int?\n}\n\nmodel ProductItem {\n  id Int @id @default(autoincrement())\n\n  price     Int\n  size      Int?\n  pizzaType Int?\n\n  product   Product @relation(fields: [productId], references: [id])\n  productId Int\n\n  createAt  DateTime   @default(now())\n  updatedAt DateTime   @updatedAt\n  cartItems CartItem[]\n}\n\nmodel Cart {\n  id Int @id @default(autoincrement())\n\n  user   User? @relation(fields: [userId], references: [id])\n  userId Int?  @unique\n\n  token       String\n  totalAmount Int    @default(0)\n\n  createAt  DateTime   @default(now())\n  updatedAt DateTime   @updatedAt\n  cartItems CartItem[]\n}\n\nmodel CartItem {\n  id Int @id @default(autoincrement())\n\n  cart   Cart @relation(fields: [cartId], references: [id])\n  cartId Int\n\n  productItem   ProductItem @relation(fields: [productItemId], references: [id])\n  productItemId Int\n\n  quantity Int\n\n  ingredients Ingredient[]\n  createAt    DateTime     @default(now())\n  updatedAt   DateTime     @updatedAt\n}\n\nmodel Order {\n  id Int @id @default(autoincrement())\n\n  user   User? @relation(fields: [userId], references: [id])\n  userId Int?\n\n  toren       String\n  totalAmount Int\n  status      OrderStatus\n  paymentTd   String\n  items       Json\n\n  fullName String\n  email    String\n  address  String\n  phone    String\n  comment  String?\n\n  createAt  DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel VerificationCode {\n  id Int @id @default(autoincrement())\n\n  user   User @relation(fields: [userId], references: [id])\n  userId Int  @unique\n\n  code     String   @unique\n  createAt DateTime @default(now())\n\n  @@unique([userId, code])\n}\n\nenum OrderStatus {\n  PENDING\n  SUCCEEDED\n  CANCELED\n}\n\nenum UserRole {\n  USER\n  ADMIN\n}\n"
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Product\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"provider\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"providerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"verified\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"cart\",\"kind\":\"object\",\"type\":\"Cart\",\"relationName\":\"CartToUser\"},{\"name\":\"orders\",\"kind\":\"object\",\"type\":\"Order\",\"relationName\":\"OrderToUser\"},{\"name\":\"verificationCode\",\"kind\":\"object\",\"type\":\"VerificationCode\",\"relationName\":\"UserToVerificationCode\"}],\"dbName\":null},\"Product\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ingredients\",\"kind\":\"object\",\"type\":\"Ingredient\",\"relationName\":\"IngredientToProduct\"},{\"name\":\"category\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryToProduct\"},{\"name\":\"categoryId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"items\",\"kind\":\"object\",\"type\":\"ProductItem\",\"relationName\":\"ProductToProductItem\"},{\"name\":\"createAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Category\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"products\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"CategoryToProduct\"}],\"dbName\":null},\"Ingredient\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"products\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"IngredientToProduct\"},{\"name\":\"createAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"cartItems\",\"kind\":\"object\",\"type\":\"CartItem\",\"relationName\":\"CartItemToIngredient\"},{\"name\":\"cartItemId\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":null},\"ProductItem\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"size\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"pizzaType\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"product\",\"kind\":\"object\",\"type\":\"Product\",\"relationName\":\"ProductToProductItem\"},{\"name\":\"productId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"cartItems\",\"kind\":\"object\",\"type\":\"CartItem\",\"relationName\":\"CartItemToProductItem\"}],\"dbName\":null},\"Cart\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CartToUser\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"totalAmount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"cartItems\",\"kind\":\"object\",\"type\":\"CartItem\",\"relationName\":\"CartToCartItem\"}],\"dbName\":null},\"CartItem\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"cart\",\"kind\":\"object\",\"type\":\"Cart\",\"relationName\":\"CartToCartItem\"},{\"name\":\"cartId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"productItem\",\"kind\":\"object\",\"type\":\"ProductItem\",\"relationName\":\"CartItemToProductItem\"},{\"name\":\"productItemId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"quantity\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"ingredients\",\"kind\":\"object\",\"type\":\"Ingredient\",\"relationName\":\"CartItemToIngredient\"},{\"name\":\"createAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Order\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"OrderToUser\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"toren\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"totalAmount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"OrderStatus\"},{\"name\":\"paymentTd\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"items\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"comment\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"VerificationCode\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToVerificationCode\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"code\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.compilerWasm = {
   getRuntime: async () => require('./query_compiler_bg.js'),

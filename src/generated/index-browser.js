@@ -125,6 +125,10 @@ exports.Prisma.UserScalarFieldEnum = {
   fullName: 'fullName',
   email: 'email',
   password: 'password',
+  role: 'role',
+  provider: 'provider',
+  providerId: 'providerId',
+  verified: 'verified',
   createAt: 'createAt',
   updatedAt: 'updatedAt'
 };
@@ -133,8 +137,79 @@ exports.Prisma.ProductScalarFieldEnum = {
   id: 'id',
   name: 'name',
   imageUrl: 'imageUrl',
+  categoryId: 'categoryId',
   createAt: 'createAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  imageUrl: 'imageUrl',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.IngredientScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  price: 'price',
+  imageUrl: 'imageUrl',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt',
+  cartItemId: 'cartItemId'
+};
+
+exports.Prisma.ProductItemScalarFieldEnum = {
+  id: 'id',
+  price: 'price',
+  size: 'size',
+  pizzaType: 'pizzaType',
+  productId: 'productId',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CartScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  totalAmount: 'totalAmount',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CartItemScalarFieldEnum = {
+  id: 'id',
+  cartId: 'cartId',
+  productItemId: 'productItemId',
+  quantity: 'quantity',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  toren: 'toren',
+  totalAmount: 'totalAmount',
+  status: 'status',
+  paymentTd: 'paymentTd',
+  items: 'items',
+  fullName: 'fullName',
+  email: 'email',
+  address: 'address',
+  phone: 'phone',
+  comment: 'comment',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VerificationCodeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  code: 'code',
+  createAt: 'createAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -142,15 +217,46 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+exports.UserRole = exports.$Enums.UserRole = {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+};
+
+exports.OrderStatus = exports.$Enums.OrderStatus = {
+  PENDING: 'PENDING',
+  SUCCEEDED: 'SUCCEEDED',
+  CANCELED: 'CANCELED'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Product: 'Product'
+  Product: 'Product',
+  Category: 'Category',
+  Ingredient: 'Ingredient',
+  ProductItem: 'ProductItem',
+  Cart: 'Cart',
+  CartItem: 'CartItem',
+  Order: 'Order',
+  VerificationCode: 'VerificationCode'
 };
 
 /**
