@@ -1,15 +1,23 @@
+'use client'
 import React from 'react'
 import Title from './title'
 import FilterCheckbox from './filter-checkbox'
 import { Input } from '../ui/input'
 import { RangeSlider } from './range-slider'
 import CheckboxFilterGroup from './checkbox-filter-group'
+import { _ingredients } from '@/prisma/constants'
+import { useFilterIngredients } from '@/hooks/useFilterIngredients'
 
 interface Props {
     className?: string
 }
 
 const Filters: React.FC = (props: Props) => {
+    const { ingredients } = useFilterIngredients();
+    const items = ingredients.map(ingredient => ({
+        text: ingredient.name,
+        value: String(ingredient.id),
+    }));
     return (
         <div>
             <Title text='Фильтрация' size='sm' className='mb-5 font-bold' />
@@ -28,108 +36,10 @@ const Filters: React.FC = (props: Props) => {
             <CheckboxFilterGroup
                 limit={6}
                 defaultItems={
-                    [
-                        {
-                            text: 'Сырный соус',
-                            value: '1',
-                        },
-                        {
-                            text: 'Моццарелла',
-                            value: '2',
-                        },
-                        {
-                            text: 'Чеснок',
-                            value: '3',
-                        },
-                        {
-                            text: 'Солённые огурчики',
-                            value: '4',
-                        },
-                        {
-                            text: 'Красный лук',
-                            value: '5',
-                        },
-                        {
-                            text: 'Томаты',
-                            value: '6',
-                        },
-                                                {
-                            text: 'Сырный соус',
-                            value: '1',
-                        },
-                        {
-                            text: 'Моццарелла',
-                            value: '2',
-                        },
-                        {
-                            text: 'Чеснок',
-                            value: '3',
-                        },
-                        {
-                            text: 'Солённые огурчики',
-                            value: '4',
-                        },
-                        {
-                            text: 'Красный лук',
-                            value: '5',
-                        },
-                        {
-                            text: 'Томаты',
-                            value: '6',
-                        },
-                    ]
+                    items.slice(0, 6)
                 }
                 items={
-                    [
-                        {
-                            text: 'Сырный соус',
-                            value: '1',
-                        },
-                        {
-                            text: 'Моццарелла',
-                            value: '2',
-                        },
-                        {
-                            text: 'Чеснок',
-                            value: '3',
-                        },
-                        {
-                            text: 'Солённые огурчики',
-                            value: '4',
-                        },
-                        {
-                            text: 'Красный лук',
-                            value: '5',
-                        },
-                        {
-                            text: 'Томаты',
-                            value: '6',
-                        },
-                                                {
-                            text: 'Сырный соус',
-                            value: '1',
-                        },
-                        {
-                            text: 'Моццарелла',
-                            value: '2',
-                        },
-                        {
-                            text: 'Чеснок',
-                            value: '3',
-                        },
-                        {
-                            text: 'Солённые огурчики',
-                            value: '4',
-                        },
-                        {
-                            text: 'Красный лук',
-                            value: '5',
-                        },
-                        {
-                            text: 'Томаты',
-                            value: '6',
-                        },
-                    ]
+                    items
                 } className='mt-5' title='Ингредиенты' />
         </div>
     )

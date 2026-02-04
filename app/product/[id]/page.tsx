@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@radix-ui/react-checkbox";
 
-export default function test (){
-    return <> <Button variant={'outline'}>dfjkksdhfkjh</Button>123
-    <Checkbox>xtr1</Checkbox></>
+export default async function ProductPage({ params }: { params: { id: string } }) {
+    const { id } = await params
+    return <div>Product {id}</div>
 }

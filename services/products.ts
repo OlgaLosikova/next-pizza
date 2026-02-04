@@ -1,0 +1,7 @@
+import { Product } from "@/src/generated"
+import { instance } from "./instance"
+import { ApiRoutes } from "./constants"
+
+export const search = async (query: string):Promise<Product[]> => {
+    return (await instance.get<Product[]>(ApiRoutes.SEARCH_PRODUCTS, { params: { query } })).data
+}
