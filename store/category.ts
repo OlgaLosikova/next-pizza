@@ -1,11 +1,10 @@
 import { create } from "zustand";
-
-
-interface State{
-    activateId:number;
-    setActivateId:(activateId:number)=>void;
+interface State {
+  activeId: number;
+  setActiveId: (activeId: number) => void;
 }
-export const useCategoryStore=create<State>()(set=>({
-    activateId:1,
-    setActivateId:(activateId:number)=>set({activateId}),
-}))
+
+export const useCategoryStore = create<State>()((set) => ({
+  activeId: 1,
+  setActiveId: (activeId: number) => set({ activeId }),
+}));

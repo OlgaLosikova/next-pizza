@@ -15,7 +15,7 @@ interface Props {
     className?: string
     loading?: boolean;
     selected?: Set<string>
-    name?:string
+    name?: string
 }
 
 const CheckboxFilterGroup: React.FC<Props> = ({ title,
@@ -24,7 +24,7 @@ const CheckboxFilterGroup: React.FC<Props> = ({ title,
     limit,
     searchInputPlaceholder = 'Search...',
     onClickChek,
-    defaultValue, className, loading, selected,name }) => {
+    defaultValue, className, loading, selected, name }) => {
     const [showAll, setShowAll] = useState(false);
     const [searchValue, setSearchValue] = useState('');
 
@@ -41,7 +41,7 @@ const CheckboxFilterGroup: React.FC<Props> = ({ title,
             <Skeleton className='w-28 h-6 mb-5 rounded-[8px]' />
         </div>;
     }
-    const list = showAll ? items.filter(item => item.text.toLowerCase().includes(searchValue.toLowerCase())) : (defaultItems||items).slice(0, limit);
+    const list = showAll ? items.filter(item => item.text.toLowerCase().includes(searchValue.toLowerCase())) : (defaultItems || items).slice(0, limit);
 
     return (
         <div className='mb-5'>
@@ -53,9 +53,9 @@ const CheckboxFilterGroup: React.FC<Props> = ({ title,
             </div>}
             <div className='flex flex-col gap-4 max-h96 pr-2 overflow-auto scrollbar'>
                 {list.map((item, i) =>
-                    <FilterCheckbox name={item.name} value={item.value} endAdornment={item.checked} text={item.text} key={i} checked={selected?.has(item.value)} onCheckedChange={() => onClickChek?.(item.value)} />)}
+                    <FilterCheckbox name={name} value={item.value} endAdornment={item.checked} text={item.text} key={i} checked={selected?.has(item.value)} onCheckedChange={() => onClickChek?.(item.value)} />)}
             </div>
-            {limit&&items.length > limit && (
+            {limit && items.length > limit && (
                 <div className={showAll ? 'border-t border-t-neutral-100 mt-4' : ''}>
                     <button onClick={() => setShowAll(!showAll)} className='text-primary mt-3'>
                         {showAll ? 'Скрыть' : '+ Показать все'}
