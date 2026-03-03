@@ -1,11 +1,13 @@
 import nunitoLocal from 'next/font/local'
-import '../app/globals.css';
+import '../../app/globals.css';
+import Header from '@/components/shared/header';
+
 
 const nunito = nunitoLocal({
-  src: '../next/font/local/Nunito-Regular.woff'
+src: '../../next/font/local/Nunito-Regular.woff'
 });
 
-export default function RootLayout({
+export default function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -16,7 +18,9 @@ export default function RootLayout({
         <link data-rh="true" rel="icon" href="/logo.png" />
       </head>
       <body className={nunito.className}>
-        {children}
+        <Header/>
+        <main className='min-h-screen'>{children}</main>
+
       </body>
     </html>
   );
