@@ -1,7 +1,7 @@
 'use client';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/lib/utils';
 import { Category } from '@/src/generated';
-import { useCategoryStore } from '@/store/category';
+import { useCategoryStore } from '@/shared/store/category';
 
 import React from 'react';
 

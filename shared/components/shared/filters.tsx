@@ -5,7 +5,7 @@ import { Input } from '../ui/input'
 import { RangeSlider } from './range-slider'
 import CheckboxFilterGroup from './checkbox-filter-group'
 import { _ingredients } from '@/prisma/constants'
-import { useIngredients, useFilters, useQueryFilters } from '@/hooks'
+import { useIngredients, useFilters, useQueryFilters } from '@/shared/hooks'
 
 interface Props {
     className?: string;

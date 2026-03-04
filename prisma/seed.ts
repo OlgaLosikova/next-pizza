@@ -32,7 +32,7 @@ async function up() {
     const pizza1 = await prisma.product.create({
         data: {
             name: 'Чизбургер-пицца',
-            imageUrl: 'https://cdpiz1.pizzasoft.ru/cr/1000x1000/pizzafab/items/12/olivetta-main_image-12632-96679.jpg?w=1920',
+            imageUrl: 'https://media.dodostatic.net/image/r:584x584/019bea4ee685708a84fd98841a0f39cc.avif',
             categoryId: 1,
             ingredients: {
                 connect: _ingredients.slice(0, 5),
@@ -42,7 +42,7 @@ async function up() {
     const pizza2 = await prisma.product.create({
         data: {
             name: 'Сырная',
-            imageUrl: 'https://cdpiz1.pizzasoft.ru/cr/1000x1000/pizzafab/items/12/olivetta-main_image-12632-96679.jpg?w=1920',
+            imageUrl: 'https://media.dodostatic.net/image/r:584x584/019bea4ee685708a84fd98841a0f39cc.avif',
             categoryId: 1,
             ingredients: {
                 connect: _ingredients.slice(5, 10),
@@ -52,7 +52,7 @@ async function up() {
     const pizza3 = await prisma.product.create({
         data: {
             name: 'Пепперони Фреш',
-            imageUrl: 'https://cdpiz1.pizzasoft.ru/cr/1000x1000/pizzafab/items/12/olivetta-main_image-12632-96679.jpg?w=1920',
+            imageUrl: 'https://media.dodostatic.net/image/r:584x584/019bea4ee685708a84fd98841a0f39cc.avif',
             categoryId: 1,
             ingredients: {
                 connect: _ingredients.slice(10, 40),

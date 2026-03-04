@@ -1,8 +1,8 @@
-import ChoseProductModal from "@/components/shared/choose-product-modal"
-import Container from "@/components/shared/container"
-import GroupVariants from "@/components/shared/group-variants"
-import PizzaImage from "@/components/shared/product-image"
-import Title from "@/components/shared/title"
+import ChoseProductModal from "@/shared/components/shared/choose-product-modal"
+import Container from "@/shared/components/shared/container"
+import GroupVariants from "@/shared/components/shared/group-variants"
+import PizzaImage from "@/shared/components/shared/product-image"
+import Title from "@/shared/components/shared/title"
 import { prisma } from "@/prisma/prisma-client"
 import { notFound } from "next/navigation"
 

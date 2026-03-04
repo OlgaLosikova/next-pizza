@@ -1,6 +1,6 @@
 import nunitoLocal from 'next/font/local'
 import '../../app/globals.css';
-import Header from '@/components/shared/header';
+import Header from '@/shared/components/shared/header';
 
 
 const nunito = nunitoLocal({
