@@ -18,6 +18,7 @@ const ChoseProductModal: React.FC<Props> = ({ className, product }) => {
     return (
         <Dialog open={!!product} onOpenChange={() => router.back()}>
             <DialogContent className='xl:max-w-6xl p-0 w-[1060px] min-h-[600px] bg-white overflow-hidden flex flex-col'>
+                <DialogTitle/>
                 {isPizzaForm ? 
                 <ChoosePizzaForm imageUrl={product.imageUrl}
                         name={product.name} ingredients={product.ingredients} items={product.items}/> :

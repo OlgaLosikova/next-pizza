@@ -10,10 +10,11 @@ interface Props {
     className?: string;
     imageUrl: string;
     name: string;
-    onClickAdd?: () => void;
+    onClickAddCart?: () => void;
+
 }
 
-const ChooseProductForm: React.FC<Props> = ({ className, imageUrl, name, onClickAdd }) => {
+const ChooseProductForm: React.FC<Props> = ({ className, imageUrl, name, onClickAddCart }) => {
     const textDetails = '30 см, 400 г, 12 кусочков';
     const total = '300';
     return (
@@ -27,7 +28,7 @@ const ChooseProductForm: React.FC<Props> = ({ className, imageUrl, name, onClick
                 <p className='text-gray-400'>
                     {textDetails}
                 </p>
-                <Button className='h-[55px] px-10 text-base rounded-[18px] w-full mt-10' onClick={onClickAdd} >Добавить в корзину {total} ₽</Button>
+                <Button className='h-[55px] px-10 text-base rounded-[18px] w-full mt-10' onClick={onClickAddCart} >Добавить в корзину {total} ₽</Button>
             </div>
 
         </div>
