@@ -25,10 +25,15 @@ const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ className, child
 const fetchCartItems = useCartStore(state => state.fetchCartItems);
 const totalAmount = useCartStore(state => state.totalAmount);
 const items = useCartStore(state => state.cartItems);
+const updateQuantity=useCartStore(state=>state.updateItemQuantity);
+const removeCartItem=useCartStore(state=>state.removeCartItem);
   useEffect(()=>{
    fetchCartItems()
   },[])
-
+  const onClickUpdateQuantity=(id: number, quantity: number, type: 'plus' | 'minus')=>{
+const newQuantity=type==='plus'?quantity+1:quantity-1;
+updateQuantity(id, newQuantity)
+  }
   return (
 
     <Sheet>
@@ -43,7 +48,8 @@ const items = useCartStore(state => state.cartItems);
           <div className="mb-2">
             {
               items?.map(item=>
-            <CartDrawerItem key={item.id} id={item.id} quantity={item.quantity} details={item.type && item.pizzaSize?getCartItemsDetails(item.type as PizzaType, item.pizzaSize as PizzaSize,item.ingredients):''} imageUrl={item.imageUrl} name={item.name} price={item.price} count={item.quantity} />
+            <CartDrawerItem key={item.id} id={item.id} quantity={item.quantity} details={item.type && item.pizzaSize?getCartItemsDetails(item.type as PizzaType, item.pizzaSize as PizzaSize,item.ingredients):''} imageUrl={item.imageUrl} name={item.name} price={item.price} count={item.quantity} 
+            onClickUpdateQuantity={(type)=>onClickUpdateQuantity(item.id, item.quantity, type)} onClickRemove={()=>removeCartItem(item.id)} />
               )
             }
 

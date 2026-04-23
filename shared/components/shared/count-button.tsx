@@ -9,13 +9,14 @@ interface Props {
   value?: number;
   size?: 'sm' | 'lg';
   className?: string;
-  onClick?: () => void;
+  onClick?: (type:'plus' | 'minus')=>void;
 }
 
- const CountButton: React.FC<Props> = ({ className, value = 1, size = 'sm' }) => {
+ const CountButton: React.FC<Props> = ({ className, value = 1, size = 'sm', onClick}) => {
   return (
     <div className={cn('inline-flex items-center justify-between gap-3', className)}>
       <Button
+      onClick={() => onClick?.('minus')}
         variant="outline"
         className={cn(
           'p-0 hover:bg-primary hover:text-white',
@@ -25,6 +26,7 @@ interface Props {
       </Button>
       <b className={size === 'sm' ? 'text-sm' : 'text-md'}>{value}</b>
       <Button
+            onClick={() => onClick?.('plus')}
         variant="outline"
         className={cn(
           'p-0 hover:bg-primary hover:text-white',

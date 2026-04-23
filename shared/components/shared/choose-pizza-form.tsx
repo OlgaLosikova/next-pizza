@@ -18,17 +18,22 @@ interface Props {
     name: string;
     ingredients: Ingredient[];
     items: ProductItem[];
-    onClickAdd?: () => void;
+    onSubmit: (itemId:number, ingredient:number[]) => void;
 }
-
-const ChoosePizzaForm: React.FC<Props> = ({ className, imageUrl, name, ingredients, items, onClickAdd }) => {
-    const { getAvailableSizes,type, size, addPizzaType, addPizzaSize } = CalculatePizzaSize(items);
+/*
+Форма выбора пиццы
+*/
+const ChoosePizzaForm: React.FC<Props> = ({ className, imageUrl, name, ingredients, items, onSubmit }) => {
+    const { getAvailableSizes,type, size, addPizzaType, addPizzaSize, currentItemId } = CalculatePizzaSize(items);
 
     const [selectedIngredients, { toggle: addIngredient }] = useSet(new Set<number>([]));
     
     const total = calcTotalPrice(items, ingredients, type, size, selectedIngredients)
     const textDetails = `${size} см, ${mapPizzaType[type]} тесто`;
     const availableSizes = getAvailableSizes(type, items);
+    const handleOnClick=()=>{
+      currentItemId&& onSubmit(currentItemId,Array.from(selectedIngredients) )
+    }
 
     return (
         <div className={cn(className, 'flex align-start flex-1 w-[1060px]')}>
@@ -55,7 +60,7 @@ const ChoosePizzaForm: React.FC<Props> = ({ className, imageUrl, name, ingredien
                         ))}
                     </div>
                 </div>
-                <Button className='h-[55px] px-10 text-base rounded-[18px] w-full mt-10' onClick={onClickAdd} >Добавить в корзину {total} ₽</Button>
+                <Button className='h-[55px] px-10 text-base rounded-[18px] w-full mt-10' onClick={handleOnClick} >Добавить в корзину {total} ₽</Button>
             </div>
         </div>
     )

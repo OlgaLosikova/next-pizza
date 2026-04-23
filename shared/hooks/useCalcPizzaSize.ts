@@ -9,6 +9,7 @@ interface ReturnProps {
     addPizzaType: (value: PizzaType) => void;
     getAvailableSizes: (type: PizzaType, items: ProductItem[]) => Variant[]
     addPizzaSize: (value: PizzaSize) => void;
+    currentItemId?:number
 }
 
 export const CalculatePizzaSize = (items: ProductItem[]): ReturnProps => {
@@ -23,6 +24,7 @@ export const CalculatePizzaSize = (items: ProductItem[]): ReturnProps => {
             disabled: !(filtredPizzasByType.some(p => p.size === item.value))
         }));
     }
+    const currentItemId=items.find(item=>item.pizzaType===type&&item.size===size)?.id;
     const addPizzaType = (value: PizzaType) => {
         setType(value as PizzaType);
         calculateSize(value)
@@ -33,5 +35,5 @@ export const CalculatePizzaSize = (items: ProductItem[]): ReturnProps => {
         const availableSize = sizes.find(item => !item.disabled);
         if (availableSize) setSize(availableSize.value as PizzaSize)
     }
-    return { type, size, addPizzaType, getAvailableSizes, addPizzaSize }
+    return { type, size, addPizzaType, getAvailableSizes, addPizzaSize, currentItemId }
 }
