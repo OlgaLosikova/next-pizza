@@ -22,17 +22,17 @@ interface Props {
 }
 
 const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ className, children }) => {
-const fetchCartItems = useCartStore(state => state.fetchCartItems);
-const totalAmount = useCartStore(state => state.totalAmount);
-const items = useCartStore(state => state.cartItems);
-const updateQuantity=useCartStore(state=>state.updateItemQuantity);
-const removeCartItem=useCartStore(state=>state.removeCartItem);
-  useEffect(()=>{
-   fetchCartItems()
-  },[])
-  const onClickUpdateQuantity=(id: number, quantity: number, type: 'plus' | 'minus')=>{
-const newQuantity=type==='plus'?quantity+1:quantity-1;
-updateQuantity(id, newQuantity)
+  const fetchCartItems = useCartStore(state => state.fetchCartItems);
+  const totalAmount = useCartStore(state => state.totalAmount);
+  const items = useCartStore(state => state.cartItems);
+  const updateQuantity = useCartStore(state => state.updateItemQuantity);
+  const removeCartItem = useCartStore(state => state.removeCartItem);
+  useEffect(() => {
+    fetchCartItems()
+  }, [])
+  const onClickUpdateQuantity = (id: number, quantity: number, type: 'plus' | 'minus') => {
+    const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
+    updateQuantity(id, newQuantity)
   }
   return (
 
@@ -45,15 +45,17 @@ updateQuantity(id, newQuantity)
           </SheetTitle>
         </SheetHeader>
         <div className='mt-5 overflow-auto scrollbar flex-1'>
-          <div className="mb-2">
+          
             {
-              items?.map(item=>
-            <CartDrawerItem key={item.id} id={item.id} quantity={item.quantity} details={item.type && item.pizzaSize?getCartItemsDetails(item.type as PizzaType, item.pizzaSize as PizzaSize,item.ingredients):''} imageUrl={item.imageUrl} name={item.name} price={item.price} count={item.quantity} 
-            onClickUpdateQuantity={(type)=>onClickUpdateQuantity(item.id, item.quantity, type)} onClickRemove={()=>removeCartItem(item.id)} />
+              items?.map(item =>
+                <div className="mb-2" key={item.id}>
+                <CartDrawerItem  id={item.id} quantity={item.quantity} details={item.type && item.pizzaSize ? getCartItemsDetails(item.type as PizzaType, item.pizzaSize as PizzaSize, item.ingredients) : ''} imageUrl={item.imageUrl} name={item.name} price={item.price} count={item.quantity}
+                  onClickUpdateQuantity={(type) => onClickUpdateQuantity(item.id, item.quantity, type)} onClickRemove={() => removeCartItem(item.id)} />
+                  </div>
               )
             }
 
-          </div>
+          
         </div>
         <SheetFooter className='bg-white p-8'>
           <div className='w-full'>

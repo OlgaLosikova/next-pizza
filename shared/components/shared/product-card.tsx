@@ -4,16 +4,18 @@ import React from 'react'
 import Title from './title';
 import { Button } from '../ui/button';
 import { Plus } from 'lucide-react';
+import { Ingredient } from '@/src/generated';
 
 type Props = {
     imgUrl: string;
     id: number;
     price: number;
-    name: string
+    name: string;
+    ingredients: Ingredient[];
 
 }
 
-const ProductCard: React.FC<Props> = ({ imgUrl, id, price, name }) => {
+const ProductCard: React.FC<Props> = ({ imgUrl, id, price, name, ingredients }) => {
     return (
         <div>
             <Link href={`/product/${id}`}>
@@ -22,7 +24,7 @@ const ProductCard: React.FC<Props> = ({ imgUrl, id, price, name }) => {
                 </div>
                 <Title text={name} size='sm' className='mb-1 mt-3 font-bold' />
                 <p className='text-sm text-gray-400'>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero ducimus porro illum inventore ipsa soluta possimus tempore, provident esse ab sequi numquam deleniti incidunt libero repellendus, totam repudiandae nam dolore.
+                    {ingredients.map(item => item.name).join(', ')}
                 </p>
                 <div className='flex justify-between items-center mt-4'>
                     <span className='text-[20px]'>

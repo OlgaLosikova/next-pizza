@@ -5,10 +5,23 @@ import Title from "@/shared/components/shared/title"
 import { prisma } from "@/prisma/prisma-client"
 import { notFound } from "next/navigation"
 
-export default async function ProductPage({ params }: { params: { id: string } }) {
+export default async function ProductPage({ params }: { params: Promise<{ id: string; }> }) {
     const { id } = await params
     const product = await prisma.product.findFirst({
-        where: { id: Number(id) }
+        where: { id: Number(id) },
+        include: {
+            ingredients: true,
+            category: {
+                include: {
+                    products: {
+                        include: {
+                            items: true,
+                        }
+                    }
+                }
+            },
+            items: true
+        }
     })
     if (!product) {
         notFound()
@@ -22,21 +35,21 @@ export default async function ProductPage({ params }: { params: { id: string } }
                     <Title size='md' text={product.name} className="font-extrabold mb-1" />
                     <p className="text-gray-400">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, sint quisquam asperiores cumque eum, tempore inventore alias minima delectus temporibus minus nam debitis dolore vel odit magnam sit animi quam?</p>
                     <GroupVariants
-                        selectedValue="20"
+                        value={20}
                         items={
                             [
                                 {
                                     name: 'Маленькая',
-                                    value: '20'
+                                    value: 20
                                 },
                                 {
                                     name: 'Средняя',
-                                    value: '30',
+                                    value: 30,
                                     disabled: true
                                 },
                                 {
                                     name: 'Большая',
-                                    value: '40'
+                                    value: 40
                                 }
                             ]
                         } />

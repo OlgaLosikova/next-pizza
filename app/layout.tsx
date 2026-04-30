@@ -1,6 +1,6 @@
 import nunitoLocal from 'next/font/local'
 import '../app/globals.css';
-
+import toast,{Toaster} from 'react-hot-toast';
 const nunito = nunitoLocal({
   src: '../next/font/local/Nunito-Regular.woff'
 });
@@ -17,6 +17,7 @@ export default function RootLayout({
       </head>
       <body className={nunito.className}>
         {children}
+        <Toaster/>
       </body>
     </html>
   );

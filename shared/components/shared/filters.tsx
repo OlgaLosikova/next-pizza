@@ -35,8 +35,8 @@ filters.setPrices('priceTo', prices[1])
                 selected={filters.pizzaTypes}
                 items={
                     [
-                        { text: 'Тонкое', value: '1' },
-                        { text: 'Традиционное', value: '2' },
+                        { text: 'Тонкое', value: '2' },
+                        { text: 'Традиционное', value: '1' },
                     ]}
                 className='mt-5'
                 title='Тип теста' />

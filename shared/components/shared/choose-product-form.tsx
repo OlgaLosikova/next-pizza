@@ -8,12 +8,13 @@ interface Props {
     imageUrl: string;
     name: string;
     onSubmit?: () => void;
-    price: number
+    price: number;
+    loading: boolean;
 }
 /*
 Форма выбора продукта (не пиццы)
 */
-const ChooseProductForm: React.FC<Props> = ({ className, imageUrl, name, onSubmit, price }) => {
+const ChooseProductForm: React.FC<Props> = ({ className, imageUrl, name, onSubmit, price, loading }) => {
     return (
         <div className={cn(className, 'flex align-start flex-1 w-[1060px]')}>
             <div className='flex items-center justify-center flex-1 relative w-full'>
@@ -22,7 +23,7 @@ const ChooseProductForm: React.FC<Props> = ({ className, imageUrl, name, onSubmi
             </div>
             <div className="w-[490px] p-7 bg-[#fcfcfc] p-7">
                 <Title size='md' text={name} className="font-extrabold mb-1" />
-                <Button className='h-[55px] px-10 text-base rounded-[18px] w-full mt-10' onClick={onSubmit} >Добавить в корзину {price} ₽</Button>
+                <Button loading={loading} className='h-[55px] px-10 text-base rounded-[18px] w-full mt-10' onClick={onSubmit} >Добавить в корзину {price} ₽</Button>
             </div>
 
         </div>

@@ -17,6 +17,7 @@ interface Props {
     <div className={cn('inline-flex items-center justify-between gap-3', className)}>
       <Button
       onClick={() => onClick?.('minus')}
+      disabled={value<=1}
         variant="outline"
         className={cn(
           'p-0 hover:bg-primary hover:text-white',

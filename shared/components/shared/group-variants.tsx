@@ -5,9 +5,9 @@ import React from 'react'
 interface Props  {
         items:readonly Variant[]
     className?:string,
-    defaultValue?:string,
+    value?:number,
     onClick?:(value:Variant['value'])=>void,
-    selectedValue:Variant['value'],
+    selectedValue?:Variant['value'],
 
 }
 export type Variant={

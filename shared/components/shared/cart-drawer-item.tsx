@@ -18,7 +18,7 @@ onClickRemove?:()=>void;
 
  const CartDrawerItem: React.FC<Props> = ({id, quantity,details, imageUrl, name, price, count, className, onClickUpdateQuantity, onClickRemove }) => {
   return (
-    <div className={cn('flex bg-white h-36 p-5 gap-6', className)}>
+    <div className={cn('flex bg-white h-auto p-5 gap-6', className)}>
       <CartItemDetailsImage src={imageUrl}/>
 
       <div className='flex-1'>
