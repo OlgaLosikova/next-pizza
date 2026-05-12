@@ -14,6 +14,7 @@ export type CartStateItem= {
     price:number,
     pizzaSize?:number|null,
     type?:number|null,
+    disabled:boolean
 
 }
 
@@ -26,10 +27,11 @@ export const getCartDetails=(data:CartDTO):ReturnProps=>{
         price:calcCartItemTotalAmount(item),
         pizzaSize:item.productItem.size,
         type:item.productItem.pizzaType,
+        disabled:false,
         ingredients:item.ingredients.map(ingredient=>({
             name:ingredient.name,
             price:ingredient.price
-        }))
+        })) as CartStateItem[]
     }))
     return {
        totalAmount: data.totalAmount,
