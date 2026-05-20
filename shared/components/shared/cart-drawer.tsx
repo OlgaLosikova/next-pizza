@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   Sheet,
   SheetClose,
@@ -14,30 +14,18 @@ import { Button } from '../ui/button'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import CartDrawerItem from './cart-drawer-item'
 import { getCartItemsDetails } from '@/shared/lib/get-cart-items-details'
-import { useCartStore } from '@/shared/store/cart'
 import { PizzaSize, PizzaType } from '@/shared/constants/pizza'
 import Image from 'next/image';
 import Title from './title';
 import { cn } from '@/shared/lib/utils';
-import { VisuallyHidden } from 'radix-ui';
+import { useCart } from '@/shared/hooks';
 
-
-interface Props {
-  className?: string
-}
-
-const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ className, children }) => {
-  const fetchCartItems = useCartStore(state => state.fetchCartItems);
-  const totalAmount = useCartStore(state => state.totalAmount);
-  const items = useCartStore(state => state.cartItems);
-  const updateQuantity = useCartStore(state => state.updateItemQuantity);
-  const removeCartItem = useCartStore(state => state.removeCartItem);
-  useEffect(() => {
-    fetchCartItems()
-  }, [])
+const CartDrawer: React.FC<React.PropsWithChildren> = ({children }) => {
+  const [redirecting, setRedirecting]=useState(false)
+  const {updateItemQuantity, totalAmount, removeCartItem,cartItems}=useCart();
   const onClickUpdateQuantity = (id: number, quantity: number, type: 'plus' | 'minus') => {
     const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
-    updateQuantity(id, newQuantity)
+    updateItemQuantity(id, newQuantity)
   }
   return (
     <Sheet>
@@ -62,7 +50,7 @@ const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ className, child
           {totalAmount > 0 && <>
             <SheetHeader>
               <SheetTitle>
-                В корзине <span className='font-bold'>{items?.length} товара</span>
+                В корзине <span className='font-bold'>{cartItems?.length} товара</span>
               </SheetTitle>
             </SheetHeader>
 
@@ -70,9 +58,10 @@ const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ className, child
 
             <div className='mt-5 overflow-auto scrollbar flex-1'>
               {
-                items?.map(item =>
+                cartItems?.map(item =>
                   <div className="mb-2" key={item.id}>
-                    <CartDrawerItem disabled={item.disabled} id={item.id} quantity={item.quantity} details={item.type && item.pizzaSize ? getCartItemsDetails(item.type as PizzaType, item.pizzaSize as PizzaSize, item.ingredients) : ''} imageUrl={item.imageUrl} name={item.name} price={item.price} count={item.quantity}
+                    <CartDrawerItem disabled={item.disabled} id={item.id} quantity={item.quantity} 
+                    details={getCartItemsDetails(item.type as PizzaType, item.pizzaSize as PizzaSize, item.ingredients)} imageUrl={item.imageUrl} name={item.name} price={item.price} count={item.quantity}
                       onClickUpdateQuantity={(type) => onClickUpdateQuantity(item.id, item.quantity, type)} onClickRemove={() => removeCartItem(item.id)} />
                   </div>
                 )
@@ -84,8 +73,10 @@ const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ className, child
                   <span className='flex flex-1 text-lg text-neutral-500'>Итого:</span>
                   <span className='font-bold text-xl'>{totalAmount} ₽</span>
                 </div>
-                <Link href={'/cart'}>
+                <Link href={'/checkout'}>
                   <Button
+                  loading={redirecting}
+                  onClick={()=>setRedirecting(true)}
                     type='submit'
                     className='w-full h-12 text-base'
                   >

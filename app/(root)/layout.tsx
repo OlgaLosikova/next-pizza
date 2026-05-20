@@ -13,7 +13,7 @@ export default function HomeLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <main className='min-h-screen'><Header />
+    <main className='min-h-screen'><Header hasSearch={true} hasCart={true}/>
       {children}
       {modal}
     </main>

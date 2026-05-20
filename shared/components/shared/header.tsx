@@ -9,10 +9,12 @@ import SearchInput from './search-input'
 import CartButton from './cart-button'
 
 interface Props {
-  className?: string
+  className?: string;
+  hasSearch?:boolean;
+  hasCart?:boolean;
 }
 
-const Header: React.FC<Props> = ({ className }) => {
+const Header: React.FC<Props> = ({ className, hasSearch, hasCart }) => {
   return (
     <header className={cn('border border-b', className)}>
       <Container className='flex item-center justify-between py-8'>
@@ -24,14 +26,14 @@ const Header: React.FC<Props> = ({ className }) => {
           </div>
         </Link>
 
-        <div className='mx-10 flex-1'>
+       {hasSearch&& <div className='mx-10 flex-1'>
           <SearchInput />
-        </div>
+        </div>}
 
         <div className='flex items-center gap-4'>
           <Button variant='outline' className='flex items-center gap-3'><User size={16} />Войти</Button>
           <div className='flex items-center gap-1 transition'>
-<CartButton/>
+{hasCart&&<CartButton/>}
           </div>
         </div>
       </Container>
