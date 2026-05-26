@@ -52,7 +52,6 @@ export const useCartStore = create<CartState>((set, get) => ({
                                 try {
             set({ loading: true, error: false });
             const data = await Api.cart.addCartItem(values);
-            console.log(data, 'stoire')
             set(getCartDetails(data));
         }
         catch (err) {
@@ -67,7 +66,6 @@ export const useCartStore = create<CartState>((set, get) => ({
                         try {
             set(state=>({loading:true, error:false, cartItems:state.cartItems.map(item=>item.id?{...item, disabled:true}:item)}));
             const data = await Api.cart.removeCartItem(id);
-            console.log(data, 'stoire')
             set(getCartDetails(data));
         }
         catch (err) {
