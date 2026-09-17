@@ -13,7 +13,7 @@ const ProfileButton:React.FC<Props> = ({className, onClickSighIn}) => {
        const {data:session}=useSession();
   return (
     <div>
-        {!session?<Button onClick={() => signIn('github', { callbackUrl: '/', redirect: true })} variant='outline' className='flex items-center gap-3'><User size={16} />Войти</Button>:<Link href='/profile'>
+        {!session?<Button onClick={onClickSighIn} variant='outline' className='flex items-center gap-3'><User size={16} />Войти</Button>:<Link href='/profile'>
         <Button variant={'secondary'} className='flex items-center gap-2'>
 <CircleUser size={18}/>
 Профиль

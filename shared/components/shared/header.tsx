@@ -19,6 +19,7 @@ interface Props {
 
 const Header: React.FC<Props> = ({ className, hasSearch, hasCart }) => {
   const searchParams = useSearchParams();
+  const {data:session}=useSession()
   useEffect(() => {
     if (searchParams.has('paid')) toast.success('Оплата прошла успешно!')
   }, [])
