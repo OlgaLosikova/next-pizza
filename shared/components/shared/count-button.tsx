@@ -16,6 +16,7 @@ interface Props {
   return (
     <div className={cn('inline-flex items-center justify-between gap-3', className)}>
       <Button
+      type="button"
       onClick={() => onClick?.('minus')}
       disabled={value<=1}
         variant="outline"
@@ -27,6 +28,7 @@ interface Props {
       </Button>
       <b className={size === 'sm' ? 'text-sm' : 'text-md'}>{value}</b>
       <Button
+      type="button"
             onClick={() => onClick?.('plus')}
         variant="outline"
         className={cn(

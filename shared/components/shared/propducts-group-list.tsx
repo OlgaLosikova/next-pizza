@@ -5,7 +5,6 @@ import { cn } from '@/shared/lib/utils';
 import ProductCard from './product-card';
 import { useIntersection } from 'react-use';
 import { useCategoryStore } from '@/shared/store/category';
-import { Product } from '@/src/generated';
 import { ProductWithRelations } from '@/@types/prisma';
 
 type Props = {

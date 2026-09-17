@@ -36,7 +36,9 @@ const CheckoutItem: React.FC<CartItemProps> = ({ imageUrl, name, price, quantity
         </div>
         
       </div>
-      <X className='ml-auto' onClick={onClickRemove} />
+      <button type="button" className='ml-auto' onClick={onClickRemove}>
+        <X />
+      </button>
     </div>
   );
 };

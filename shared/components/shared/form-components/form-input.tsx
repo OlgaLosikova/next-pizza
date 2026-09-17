@@ -1,11 +1,11 @@
 'use client'
 import React from 'react'
 import RequiredSymbol from './required-symbol';
-
 import ErrorText from './error-text';
 import ClearButton from './clear-button';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useFormState, useWatch, get } from 'react-hook-form';
 import { Input } from '../../ui/input';
+
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 name:string;
@@ -15,11 +15,11 @@ className?:string
 }
 
 const FormInput: React.FC<Props> = ({name, className,required,label, ...props}) => {
-    const {register, formState:{errors}, watch,setValue}=useFormContext();
-    const value=watch(name);
-    const errorText=errors[name]?.message as string;
+    const {register, setValue, control}=useFormContext();
+    const value=useWatch({name, control});
     const onClickClear=()=>setValue(name, '', {shouldValidate:true})
-    console.log(name, value)
+const {errors}=useFormState({control})
+ const errorText = get(errors, name)?.message?.toString();
     return (
         <div className={className}>
             {label&&(
@@ -28,10 +28,10 @@ const FormInput: React.FC<Props> = ({name, className,required,label, ...props}) 
                 </p>
             )}
             <div className="relative">
-                <Input onInput={(e) => setValue(name, e.currentTarget.value, { shouldValidate: true })} className='h-12 text-md' {...register(name)} {...props}/>
+                <Input  className='h-12 text-md' {...register(name)} {...props}/>
                 {value&&<ClearButton onClick={onClickClear}/>}
             </div>
-            {errorText&&<ErrorText text='Поле обязательно для заполнения'/>}
+            {errorText&&<ErrorText text={errorText}/>}
             
         </div>
     )
