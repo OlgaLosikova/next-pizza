@@ -38,9 +38,7 @@ const Header: React.FC<Props> = ({ className, hasSearch, hasCart }) => {
         {hasSearch && <div className='mx-10 flex-1'>
           <SearchInput />
         </div>}
-
         <div className='flex items-center gap-4'>
-
           <div className='flex items-center gap-1 transition'>
             <AuthModal open={open} onClose={()=>setOpen(false)}/>
             <ProfileButton onClickSighIn={()=>setOpen(true)}/>
