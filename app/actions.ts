@@ -88,9 +88,9 @@ export async function createOrder(data: CheckoutFormFields) {
         await sendEmail(data.email, `Оплатите заказ №${order.id}`, await PayOrderEmailTemplate({
     orderId: order.id,
     totalAmount: order.totalAmount,
-    paymentUrl: 'https://localhost:3001/?paid'
+    paymentUrl: 'https://localhost:3000'
 }));
-return 'https://localhost:3001/?paid';
+return 'https://localhost:3000';
     }
     catch (err) { 
         console.error('Error creating order:', err);
