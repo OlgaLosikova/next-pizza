@@ -9,7 +9,7 @@ import SearchInput from './search-input'
 import CartButton from './cart-button'
 import { useSearchParams } from 'next/navigation'
 import toast from 'react-hot-toast'
-import { useSession, signIn } from 'next-auth/react'
+import AuthModal from './auth-modal/auth-modal'
 
 interface Props {
   className?: string;
@@ -18,8 +18,9 @@ interface Props {
 }
 
 const Header: React.FC<Props> = ({ className, hasSearch, hasCart }) => {
+  const [open, setOpen]=React.useState(false)
   const searchParams = useSearchParams();
-  const {data:session}=useSession()
+
   useEffect(() => {
     if (searchParams.has('paid')) toast.success('Оплата прошла успешно!')
   }, [])
@@ -41,7 +42,8 @@ const Header: React.FC<Props> = ({ className, hasSearch, hasCart }) => {
         <div className='flex items-center gap-4'>
 
           <div className='flex items-center gap-1 transition'>
-            <ProfileButton onClickSighIn={signIn}/>
+            <AuthModal open={open} onClose={()=>setOpen(false)}/>
+            <ProfileButton onClickSighIn={()=>setOpen(true)}/>
             {hasCart && <CartButton />}
           </div>
         </div>

@@ -1,5 +1,6 @@
 import Container from "@/shared/components/shared/container"
 import Header from "@/shared/components/shared/header"
+import { Suspense } from "react"
 
 export const metadata = {
     title: 'Next.js',
@@ -8,10 +9,10 @@ export const metadata = {
 export default function CheckoutLayout({ children }: { children: React.ReactNode }) {
     return (
         <main className="min-h-screen bg-[#F4F1EE]">
-            <Container>
+             <Suspense fallback={<div>Loading...</div>}><Container>
                 <Header hasSearch={false} hasCart={false} className="border-gray-200" />
                 {children}
-            </Container>
+            </Container></Suspense>
         </main>
     )
 
